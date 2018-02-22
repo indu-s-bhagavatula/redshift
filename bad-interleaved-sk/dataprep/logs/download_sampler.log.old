@@ -1,0 +1,27 @@
+INFO 2018-02-22 11:41:59,700 Hi
+INFO 2018-02-22 11:42:58,864 Starting new HTTP connection (1): 169.254.169.254
+INFO 2018-02-22 11:42:58,866 Starting new HTTP connection (1): 169.254.169.254
+INFO 2018-02-22 11:43:10,977 Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
+INFO 2018-02-22 11:43:10,984 Starting new HTTPS connection (1): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,034 Starting new HTTPS connection (2): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,036 Starting new HTTPS connection (3): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,053 Starting new HTTPS connection (4): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,055 Starting new HTTPS connection (5): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,067 Starting new HTTPS connection (6): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,068 Starting new HTTPS connection (7): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,068 Starting new HTTPS connection (8): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,068 Starting new HTTPS connection (9): s3.amazonaws.com
+INFO 2018-02-22 11:43:11,094 Starting new HTTPS connection (10): s3.amazonaws.com
+INFO 2018-02-22 11:43:47,289 Downloaded the object from S3 - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
+INFO 2018-02-22 11:43:47,620 Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-01.csv.tocleanse
+INFO 2018-02-22 11:43:47,715 Generated cleansed sample file sampled-data/yellow_tripdata_2009-01.csv
+INFO 2018-02-22 11:43:47,715 Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-01.csv.tocleanse
+INFO 2018-02-22 11:43:48,518 Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
+INFO 2018-02-22 11:43:48,518 Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
+INFO 2018-02-22 11:43:48,518 Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
+INFO 2018-02-22 11:44:22,863 Downloaded the object from S3 - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
+INFO 2018-02-22 11:44:23,290 Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-02.csv.tocleanse
+INFO 2018-02-22 11:44:23,386 Generated cleansed sample file sampled-data/yellow_tripdata_2009-02.csv
+INFO 2018-02-22 11:44:23,387 Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-02.csv.tocleanse
+INFO 2018-02-22 11:44:23,958 Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
+INFO 2018-02-22 11:44:23,958 Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
