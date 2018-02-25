@@ -1,22 +1,44 @@
-2018-02-24 11:53:44,176 root         INFO     Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
-2018-02-24 11:53:44,177 root         INFO     Started Downloading nyc-tlc/trip data/yellow_tripdata_2009-01.csv --> raw-data/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:20,619 root         INFO     Finished Downloading nyc-tlc/trip data/yellow_tripdata_2009-01.csv --> raw-data/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:20,934 root         INFO     Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-01.csv.tocleanse
-2018-02-24 11:54:21,027 root         INFO     Generated cleansed sample file sampled-data/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:21,027 root         INFO     Started uploading sampled-data/yellow_tripdata_2009-01.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:21,147 root         INFO     Finished uploading sampled-data/yellow_tripdata_2009-01.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:22,306 root         INFO     Removed sample cleansed file sampled-data/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:22,307 root         INFO     Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-01.csv.tocleanse
-2018-02-24 11:54:22,562 root         INFO     Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:22,562 root         INFO     Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
-2018-02-24 11:54:22,562 root         INFO     Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:22,562 root         INFO     Started Downloading nyc-tlc/trip data/yellow_tripdata_2009-02.csv --> raw-data/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:57,056 root         INFO     Finished Downloading nyc-tlc/trip data/yellow_tripdata_2009-02.csv --> raw-data/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:57,488 root         INFO     Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-02.csv.tocleanse
-2018-02-24 11:54:57,582 root         INFO     Generated cleansed sample file sampled-data/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:57,583 root         INFO     Started uploading sampled-data/yellow_tripdata_2009-02.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:57,702 root         INFO     Finished uploading sampled-data/yellow_tripdata_2009-02.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:57,702 root         INFO     Removed sample cleansed file sampled-data/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:57,702 root         INFO     Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-02.csv.tocleanse
-2018-02-24 11:54:58,437 root         INFO     Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
-2018-02-24 11:54:58,437 root         INFO     Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
+2018-02-25 11:26:44,630 root         INFO     Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
+2018-02-25 11:26:44,630 root         INFO     Started Downloading nyc-tlc/trip data/yellow_tripdata_2009-01.csv --> raw-data/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:21,120 root         INFO     Finished Downloading nyc-tlc/trip data/yellow_tripdata_2009-01.csv --> raw-data/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:21,465 root         INFO     Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-01.csv.tocleanse
+2018-02-25 11:27:22,345 root         INFO     Generated cleansed sample file sampled-data/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:22,345 root         INFO     Started uploading sampled-data/yellow_tripdata_2009-01.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:22,465 root         INFO     Finished uploading sampled-data/yellow_tripdata_2009-01.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:22,466 root         INFO     Removed sample cleansed file sampled-data/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:22,466 root         INFO     Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-01.csv.tocleanse
+2018-02-25 11:27:23,194 root         INFO     Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:23,194 root         INFO     Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-01.csv
+2018-02-25 11:27:23,195 root         INFO     Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:23,195 root         INFO     Started Downloading nyc-tlc/trip data/yellow_tripdata_2009-02.csv --> raw-data/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:58,112 root         INFO     Finished Downloading nyc-tlc/trip data/yellow_tripdata_2009-02.csv --> raw-data/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:58,519 root         INFO     Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-02.csv.tocleanse
+2018-02-25 11:27:58,616 root         INFO     Generated cleansed sample file sampled-data/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:58,616 root         INFO     Started uploading sampled-data/yellow_tripdata_2009-02.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:58,687 root         INFO     Finished uploading sampled-data/yellow_tripdata_2009-02.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:58,687 root         INFO     Removed sample cleansed file sampled-data/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:58,688 root         INFO     Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-02.csv.tocleanse
+2018-02-25 11:27:59,271 root         INFO     Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:59,272 root         INFO     Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-02.csv
+2018-02-25 11:27:59,272 root         INFO     Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-03.csv
+2018-02-25 11:27:59,272 root         INFO     Started Downloading nyc-tlc/trip data/yellow_tripdata_2009-03.csv --> raw-data/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:36,990 root         INFO     Finished Downloading nyc-tlc/trip data/yellow_tripdata_2009-03.csv --> raw-data/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:37,277 root         INFO     Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-03.csv.tocleanse
+2018-02-25 11:28:37,375 root         INFO     Generated cleansed sample file sampled-data/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:37,375 root         INFO     Started uploading sampled-data/yellow_tripdata_2009-03.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:37,497 root         INFO     Finished uploading sampled-data/yellow_tripdata_2009-03.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:37,497 root         INFO     Removed sample cleansed file sampled-data/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:37,498 root         INFO     Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-03.csv.tocleanse
+2018-02-25 11:28:37,959 root         INFO     Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:37,959 root         INFO     Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-03.csv
+2018-02-25 11:28:37,959 root         INFO     Start Processing - nyc-tlc/trip data/yellow_tripdata_2009-04.csv
+2018-02-25 11:28:37,959 root         INFO     Started Downloading nyc-tlc/trip data/yellow_tripdata_2009-04.csv --> raw-data/yellow_tripdata_2009-04.csv
+2018-02-25 11:29:15,574 root         INFO     Finished Downloading nyc-tlc/trip data/yellow_tripdata_2009-04.csv --> raw-data/yellow_tripdata_2009-04.csv
+2018-02-25 11:29:15,873 root         INFO     Generated sample file to be cleansed sampled-data/yellow_tripdata_2009-04.csv.tocleanse
+2018-02-25 11:29:15,971 root         INFO     Generated cleansed sample file sampled-data/yellow_tripdata_2009-04.csv
+2018-02-25 11:29:15,972 root         INFO     Started uploading sampled-data/yellow_tripdata_2009-04.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-04.csv
+2018-02-25 11:29:16,141 root         INFO     Finished uploading sampled-data/yellow_tripdata_2009-04.csv --> indu-s-bhagavatula-us-east-1/git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-04.csv
+2018-02-25 11:29:16,141 root         INFO     Removed sample cleansed file sampled-data/yellow_tripdata_2009-04.csv
+2018-02-25 11:29:16,142 root         INFO     Removed sample file to be cleansed - sampled-data/yellow_tripdata_2009-04.csv.tocleanse
+2018-02-25 11:29:16,761 root         INFO     Removed the downloaded from S3 - nyc-tlc/trip data/yellow_tripdata_2009-04.csv
+2018-02-25 11:29:16,761 root         INFO     Finished Processing - nyc-tlc/trip data/yellow_tripdata_2009-04.csv

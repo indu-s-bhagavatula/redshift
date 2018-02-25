@@ -17,6 +17,24 @@
             "sample_processed_file" : "sampled-data/yellow_tripdata_2009-02.csv",
             "cleansed_sampled_data_s3_bkt" : "indu-s-bhagavatula-us-east-1",
             "cleansed_sampled_data_s3_objet" : "git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-02.csv"
+        },
+        {
+            "description" : "yellow_2009_mar",
+            "raw_data_s3_bkt" : "nyc-tlc",
+            "raw_data_s3_object" : "trip data/yellow_tripdata_2009-03.csv", 
+            "raw_data_download_loc" : "raw-data/yellow_tripdata_2009-03.csv",            
+            "sample_processed_file" : "sampled-data/yellow_tripdata_2009-03.csv",
+            "cleansed_sampled_data_s3_bkt" : "indu-s-bhagavatula-us-east-1",
+            "cleansed_sampled_data_s3_objet" : "git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-03.csv"
+        },
+        {
+            "description" : "yellow_2009_apr",
+            "raw_data_s3_bkt" : "nyc-tlc",
+            "raw_data_s3_object" : "trip data/yellow_tripdata_2009-04.csv", 
+            "raw_data_download_loc" : "raw-data/yellow_tripdata_2009-04.csv",            
+            "sample_processed_file" : "sampled-data/yellow_tripdata_2009-04.csv",
+            "cleansed_sampled_data_s3_bkt" : "indu-s-bhagavatula-us-east-1",
+            "cleansed_sampled_data_s3_objet" : "git/redshift/bad-interleaved-sk/cleansed-sampled/yellow_tripdata_2009-04.csv"
         }
     ]
 }
