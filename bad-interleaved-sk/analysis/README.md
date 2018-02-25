@@ -158,8 +158,8 @@ Check SVV_INTERLEAVED_COLUMNS with the table_id from the above query.
 ```sql
 select tbl, col, interleaved_skew, last_reindex FROM SVV_INTERLEAVED_COLUMNS where tbl=<tableid> order by col;
 ```
-tbl   | col | interleaved_skew | last_reindex
---------+-----+------------------+--------------
+|tbl   | col | interleaved_skew | last_reindex |
+|--------|-----|------------------|--------------|
 |100188 |   1 |             1.47 | 2018-02-25 13:10:04.845083|
 |100188 |   5 |             1.50 | 2018-02-25 13:10:04.845083|
 |100188 |   6 |             1.45 | 2018-02-25 13:10:04.845083|
