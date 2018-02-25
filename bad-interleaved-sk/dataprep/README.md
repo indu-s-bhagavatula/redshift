@@ -1,6 +1,4 @@
-"download_sampler.py" uses boto3 to download the raw source files from S3. To make the API calls boto3 makes use of EC2 role credentials.
+### Prerequisites
+1. Install [boto3](https://github.com/boto/boto3)
 
-Steps to install boto3 are available here - [https://github.com/boto/boto3](https://github.com/boto/boto3)
-
-# Heading 1
-## Heading 2
+2. To run this module in an interactive way install  Jupyter ( [Anaconda 2.7](https://www.anaconda.com/download/#linux) ).

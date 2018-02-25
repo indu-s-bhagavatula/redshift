@@ -27,7 +27,6 @@ create table nyc_yellow_taxi_data (
   ,total_amt real
 )
 INTERLEAVED SORTKEY (trip_pickup_datetime,start_lat,start_lon);
-);
 ```
 Run the COPY to load Jan 2009 data.
 ```sql
@@ -59,7 +58,7 @@ select tbl, col, interleaved_skew, last_reindex FROM SVV_INTERLEAVED_COLUMNS whe
 |100168 |   5 |             1.64 | |
 |100168 |   6 |             1.54 | |
 
-** Analysis: **
+**Analysis:**
 Redshift established a mapping and distributed data into different buckets for available combinations (trip_pickup_datetime,start_lat,start_lon) from the records available in the specified file.
 And the table is 100% sorted.
 
@@ -94,7 +93,7 @@ select tbl, col, interleaved_skew, last_reindex FROM SVV_INTERLEAVED_COLUMNS whe
 |100188 |   5 |             2.97 | |
 |100188 |   6 |             3.94 | |
 
-** Analysis: **
+**Analysis:**
 All of the Feb 2009 data was loaded in the "others" bucket because the records loaded don't match to any of the existing combinations recognized by mapping established while loading Jan 2009.
 
 The same will continue to happen when loading Mar 2009 and Apr 2009 data.
@@ -139,7 +138,7 @@ select tbl, col, interleaved_skew, last_reindex FROM SVV_INTERLEAVED_COLUMNS whe
 |100188 |   1 |           768.31 | |
 |100188 |   6 |             2.51 | |
 
-** Analysis: **
+**Analysis:**
 The records loaded for Mar and Apr 2009 have also been loaded into "others" bucket and hence % data in unsorted region is 75%.
 
 ### VACUUM REINDEX
@@ -165,7 +164,7 @@ tbl   | col | interleaved_skew | last_reindex
 |100188 |   5 |             1.50 | 2018-02-25 13:10:04.845083|
 |100188 |   6 |             1.45 | 2018-02-25 13:10:04.845083|
 
-** Analysis: **
+**Analysis:**
 VACUUM REINDEX on the table built a new mapping using all the existing active records and redistributed the data into 1024 buckets.
 The process on tables involving billions of records will be an expensive operation.
 
