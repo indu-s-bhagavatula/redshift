@@ -1,0 +1,290 @@
+# Your snippets
+#
+# Atom snippets allow you to enter a simple prefix in the editor and hit tab to
+# expand the prefix into a larger code block with templated values.
+#
+# You can create a new snippet in this file by typing "snip" and then hitting
+# tab.
+#
+# An example CoffeeScript snippet to expand log to console.log:
+#
+# '.source.coffee':
+#   'Console log':
+#     'prefix': 'log'
+#     'body': 'console.log $1'
+#
+# Each scope (e.g. '.source.coffee' above) can only be declared once.
+#
+# This file uses CoffeeScript Object Notation (CSON).
+# If you are unfamiliar with CSON, you can read more about it in the
+# Atom Flight Manual:
+# http://flight-manual.atom.io/using-atom/sections/basic-customization/#_cson
+
+'.source.sql':
+  'Redshift Storage Per Database':
+    'prefix': 'rs-database-size'
+    'body': """
+    select trim(pgdb.datname) as Database, sum(b.mbytes) from stv_tbl_perm a join pg_database as pgdb on pgdb.oid = a.db_id join (select tbl, count(*) as mbytes from stv_blocklist group by tbl) b on a.id=b.tbl join ( select sum(capacity) as total from stv_partitions where part_begin=0 ) as part on 1=1 where a.slice=0 GROUP BY Database order by 2 desc;
+     """
+  'Redshift Memory per slot per node':
+    'prefix': 'rs-memory-allocation'
+    'body': """
+    -- Memory is per slot per node
+    select stvc.service_class,trim(stvw.condition) as condition,trim(stvc.name) name,stvc.num_query_tasks,stvc.target_num_query_tasks,user_group_wild_card,query_group_wild_card,stvc.evictable,stvc.eviction_threshold,stvc.query_working_mem query_working_mem_perslot_pernode,stvc.target_query_working_mem target_query_working_mem_perslot_pernode,stvc.max_execution_time from STV_WLM_SERVICE_CLASS_CONFIG stvc,(select action_service_class,listagg(condition, ' ') within group (order by condition desc) as condition from STV_WLM_CLASSIFICATION_CONFIG group by action_service_class) stvw  where stvc.service_class=stvw.action_service_class and stvc.service_class>4 order by stvc.service_class;
+     """
+
+  'Redshift Disk Space Utilization':
+    'prefix': 'rs-dsk-util'
+    'body': """
+     select host,sum(used-tossed) as used_mb,nominal,round(sum(used-tossed)/nominal*100,2) as pctused_nominal
+     ,sum(capacity) as capacity,round((sum(used-tossed)/sum(capacity) *100),2) as pctused_capacity from
+      (select host,used::numeric,tossed::numeric,capacity::numeric,part_begin,case
+          when capacity in (381407,190633,361859) then 160*1024
+          when capacity in (380319,760956) then 2.56*1024*1024
+          when capacity in (1906314,952455) then 2*1024*1024
+          when capacity = 945026 then 16*1024*1024
+          end::numeric as nominal from stv_partitions) where part_begin=0 group by 1,3 order by 1;
+     """
+  'Current Disk map usage':
+    'prefix': 'rs-dsk-map'
+    'body': """
+     select CASE
+                WHEN tbl > 0 THEN 'User_Table'
+                WHEN tbl = 0 THEN 'Freed_Blocks'
+                WHEN tbl = -2 THEN 'Catalog_File_Store'
+                WHEN tbl = -3 THEN 'Metadata'
+                WHEN tbl = -4 THEN 'Temp_Delete_Blocks'
+                WHEN tbl = -6 THEN 'Query_Spill_To_Disk'
+                WHEN tbl < -2000000 THEN 'Vacuum_Stage_Blocks'
+                ELSE 'Stage_blocks_For_Real_Table_DML'
+              END as Block_type,
+              CASE
+                when tombstone > 0 THEN 1
+                ELSE 0
+              END as tombstone,
+              count(1) from stv_blocklist group by 1 , 2 order by 1, 2;
+       """
+  'Redshift Average Query execution Daily':
+    'prefix': 'rs-query-daily-avg'
+    'body': """
+    -- Query exec times - Average, Min and Max (Doesn't include WLM Queue time)
+    select  trunc(starttime) as "day", count(query) query_count, AVG (datediff(s,starttime,endtime) ) avg_dur_s
+    , MAX (datediff(s,starttime,endtime) ) max_dur_s , MIN (datediff(s,starttime,endtime)) min_dur_s
+    from stl_query where userid<>1 GROUP BY trunc(starttime) ORDER BY 1 ;
+    """
+
+  'Redshift Average Query execution Daily For a table':
+    'prefix': 'rs-query-table-daily-avg'
+    'body': """
+    -- Query exec times involving a particular table - Average, Min and Max (Doesn't include WLM Queue time)
+    select  trunc(starttime) as "day", count(query) query_count, AVG (datediff(s,starttime,endtime) ) avg_dur_s
+    , MAX (datediff(s,starttime,endtime) ) max_dur_s , MIN (datediff(s,starttime,endtime)) min_dur_s
+    from stl_query where querytxt ilike '%<$1table_name>%' userid<>1 GROUP BY trunc(starttime) ORDER BY 1 ;
+    """
+
+  'Redshift Slow Node Query':
+    'prefix': 'rs-slow-node'
+    'body': """
+    -- Node and bytes processed
+    select iq.day_d, sl.node, sum(iq.elapsed_ms) as elapsed, sum(iq.bytes) as bytes
+    from (select start_time::date as day_d, slice,query,segment,datediff('ms',min(start_time)
+    ,max(end_time)) as elapsed_ms, sum(bytes) as bytes
+    from svl_query_report where end_time > start_time group by 1,2,3,4) iq
+    join stv_slices as sl on (sl.slice = iq.slice) group by 1,2 order by 1 desc, 3 desc;
+    """
+  'Redshift Query Disk spill while in progress':
+    'prefix': 'rs-query-inprogress-dsk-spill'
+    'body': """
+    --Query Temp blocks While in progress
+    -- Query 1
+    select stlq.userid,stlq.pid,stlq.xid,stqs.query_id,sum(stqs.temp_blocks) temp_blocks,substring(stlq.text,1,70) as text from stv_query_stats stqs,stl_querytext stlq where stqs.query_id=stlq.query and stlq.sequence=0 group by 1,2,3,4,6;
+    -- Query 2
+    select decode(on_disk,0,'mem',1,'disk') as location,node,count(blocknum) from stv_blocklist stvb,stv_slices stvs where stvb.slice=stvs.slice and tbl=-6 group by 1,2 order by 2,1 desc;
+    """
+
+  'Lock Checks':
+    'prefix': 'rs-lock-checks'
+    'body': """
+    -- https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminViews/v_check_transaction_locks.sql
+    SELECT sysdate AS system_ts, TRIM(n.nspname) schemaname, TRIM(c.relname) tablename, TRIM(l.database) databasename, l.transaction ,l.pid, a.usename, l.mode,l.granted FROM pg_catalog.pg_locks l JOIN pg_catalog.pg_class c ON c.oid = l.relation JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace JOIN pg_catalog.pg_stat_activity a ON a.procpid = l.pid;
+    """
+
+  'Lock Wait Query':
+    'prefix': 'rs-lock-wait-query'
+    'body': """
+    -- https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/lock_wait.sql
+    -- Needs to be checked when the statement runs.
+    WITH locks AS (
+    SELECT svv.xid,l.pid,svv.txn_owner as username,TRIM(d.datname) as dbname
+    ,svv.relation,TRIM(nsp.nspname) as schemaname,TRIM(c.relname) as objectname
+    ,l.mode,l.granted,svv.lockable_object_type as obj_type,svv.txn_start
+    ,ROUND((EXTRACT(EPOCH FROM current_timestamp) - EXTRACT(EPOCH FROM svv.txn_start)),2) as block_sec
+    ,ROUND((EXTRACT(EPOCH FROM current_timestamp) - EXTRACT(EPOCH FROM svv.txn_start))/60,2) as block_min
+    ,ROUND((EXTRACT(EPOCH FROM current_timestamp) - EXTRACT(EPOCH FROM svv.txn_start))/60/60,2) as block_hr
+    ,CASE WHEN l.granted is false THEN ROUND((EXTRACT(EPOCH FROM current_timestamp) - EXTRACT(EPOCH FROM rct.starttime)),2) ELSE NULL END as waiting
+    FROM  pg_catalog.pg_locks l
+    INNER JOIN pg_catalog.svv_transactions svv ON l.pid = svv.pid
+    AND   l.relation = svv.relation
+    AND   svv.lockable_object_type is not null
+    LEFT JOIN pg_catalog.pg_class c on c.oid = svv.relation
+    LEFT JOIN pg_namespace nsp ON nsp.oid = c.relnamespace
+    LEFT JOIN pg_catalog.pg_database d on d.oid = l.database
+    LEFT OUTER JOIN stv_recents rct ON rct.pid = l.pid
+    WHERE  l.pid <> pg_backend_pid()
+    )
+    select distinct * from (
+    SELECT l.xid,l.pid,l.username,l.dbname,l.relation
+    ,l.schemaname,l.objectname,l.mode
+    ,DECODE(l.granted, true, 'True', false, 'False') granted
+    ,l.obj_type,l.txn_start
+    ,DECODE(l.granted, true, l.block_sec, NULL) as block_sec
+    ,DECODE(l.granted, true, l.block_min, NULL) as block_min
+    ,DECODE(l.granted, true, l.block_hr, NULL) as block_hr
+    ,waiting
+    ,b.max_sec_blocking
+    ,b.num_blocking
+    ,b.pidlist
+    FROM   locks l
+    LEFT OUTER JOIN
+          (
+           SELECT relation,mode,listagg(b.pid, ',') as pidlist
+           ,MIN(block_sec) as min_sec_blocking,MAX(waiting) as max_sec_blocking
+           ,COUNT(*) as num_blocking
+           FROM   locks b
+           WHERE  granted is false
+           GROUP BY relation,mode
+          ) b
+    ON   l.relation = b.relation
+    AND  l.granted is true
+    AND (l.mode like '%Exclusive%'
+    OR (l.mode like '%Share%' AND b.mode like '%ExclusiveLock' and b.mode not like '%Share%'))
+    )
+    ORDER BY granted DESC
+    ,       max_sec_blocking desc nulls last
+    ,      block_sec DESC,
+    waiting desc nulls last
+    ;
+    """
+
+  'Current WLM status':
+    'prefix': 'rs-wlm-queue-status'
+    'body': """
+    -- Current WLM status
+    select * from stv_wlm_query_state order by wlm_start_time;
+    """
+
+  'Queries that were queued':
+    'prefix': 'rs-wlm-queueing-queries'
+    'body': """
+    -- Top 50 queries that were queued
+    -- https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/queuing_queries.sql
+    -- Related script -  https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminViews/v_check_wlm_query_time.sql
+    SELECT w.query ,substring(q.querytxt,1,100) AS querytxt ,w.queue_start_time ,w.service_class AS class ,w.slot_count AS slots ,w.total_queue_time / 1000000 AS queue_seconds ,w.total_exec_time / 1000000 exec_seconds ,(w.total_queue_time + w.total_Exec_time) / 1000000 AS total_seconds FROM stl_wlm_query w LEFT JOIN stl_query q ON q.query = w.query AND q.userid = w.userid WHERE w.queue_start_Time >= dateadd(day,-7,CURRENT_DATE) AND w.total_queue_Time > 0 -- and q.starttime >= dateadd(day, -7, current_Date) -- and ( querytxt like 'select%' or querytxt like 'SELECT%' ) ORDER BY w.total_queue_time DESC ,w.queue_start_time DESC limit 50;
+    """
+
+  'Query explain plan':
+    'prefix': 'rs-query-explain-plan'
+    'body': """
+    -- Query explain plan
+    select query,plan from
+    (
+    select 1 as pos, nodeid, query, rtrim(plannode) plan  from stl_explain where query in ($1)
+    union all
+    select 2 as pos, nodeid, query,
+    REPEAT(' ', 1+(len(plannode)-len(ltrim(plannode)))::int) || rtrim(info) from stl_explain where len(info) > 1 and query in ($1)
+    )
+    where query in ($1) order by query,nodeid,pos;
+    """
+  'Query Anatomy':
+    'prefix': 'rs-query-anatomy'
+    'body': """
+    select b.userid,b.query,b.service_class,b.slot_count,b.xid
+    ,d.pid,d.aborted,a.compile_start,b.service_class_start_time,b.queue_end_time
+    ,b.service_class_end_time,c.startqueue as commit_startqueue,c.startwork as commit_startwork,c.endtime as commit_endtime
+    ,a.total_compile_time_s,b.total_queue_time/1000000 as wlm_queue_time_s
+    ,b.total_exec_time/1000000 as wlm_exec_time_s
+    ,datediff(s, c.startqueue, c.startwork) commit_queue_s,datediff(s, c.startwork, c.endtime) commit_time_s
+    ,datediff(s,compile_start,decode(c.endtime,null,b.service_class_end_time,c.endtime)) as total_query_s
+    ,substring(d.querytxt,1,50) as querytext
+    from
+    (select query,min(starttime) as compile_start,max(endtime) as compile_end,sum(datediff(s,starttime,endtime)) as total_compile_time_s from svl_compile group by query) a left join stl_wlm_query b using (query)
+    left join (select * from stl_commit_stats where node=-1) c using (xid)
+    left join stl_query d using(query)
+    -- for particular queries
+    where a.query IN (<list of queries>)
+    ;
+    """
+  'svl_query_report for a particular queries':
+    'prefix': 'rs-svl-query-report'
+    'body': """
+    -- svl_query_report for a particular queries
+    select qr.query, stream,  qr.segment, qr.step, slice, label ,is_rrscan
+    , is_diskbased as disk, start_time, end_time, elapsed_time
+    , rows, rows_pre_filter, workmem, bytes
+    from (select * from svl_query_report
+            where query IN ($1)
+    ) qr
+    LEFT JOIN stl_stream_segs segs USING (query,segment)
+    ORDER BY 1,2,3,4,5
+    ;
+    """
+
+  'SVL_QUERY_METRICS_SUMMARY for queries':
+    'prefix': 'rs-svl-query-metrics-summary'
+    'body': """
+    select * from SVL_QUERY_METRICS_SUMMARY where query IN ($1) order by query;
+    """
+  'Query Report summary for particular queries':
+    'prefix': 'rs-query-report-summary'
+    'body': """
+    -- Query summary (not SVL_QUERY_SUMMARY) report for completed query
+    select
+     a.query, stream, a.segment, a.step, a.node, a.label, a.rrS, a.disk, a.starttime,
+     a.endtime, a.elapsed_msecs, a.row_s, a.rows_pf, a.pct_filter, a.mem_mb, a.mb_produced
+    FROM
+    (select query,
+    CASE WHEN max(slice) >= 6400 THEN 'LN' ELSE 'CN' END as node,
+    segment, step, label ,is_rrscan as rrS, is_diskbased as disk, min(start_time) as starttime, max(end_time) as endtime, datediff(ms, min(start_time), max(end_time))  as "elapsed_msecs", sum(rows) as row_s , sum(rows_pre_filter) as rows_pf, CASE WHEN sum(rows_pre_filter) = 0 THEN 100 ELSE sum(rows)::float/sum(rows_pre_filter)::float*100 END as pct_filter, SUM(workmem)/1024/1024 as mem_mb, SUM(bytes)/1024/1024 as mb_produced
+    from svl_query_report
+    where query in ($1)
+    group by query, segment, step, label, is_rrscan, is_diskbased) a
+    LEFT JOIN stl_stream_segs USING (query,segment)
+    order by a.query, stream, a.segment, a.step, a.label;
+    """
+
+
+  'Redshift Workload Pattern':
+    'prefix': 'rs-wrkld-pattern'
+    'body': """
+    -- Workload pattern to understand usage within given hour
+    select date_trunc('hour', w.exec_start_time) as exec_hour, w.service_class as "Q", count(*) as n_q, avg(w.total_queue_time/1000000) as avg_q_sec, avg(w.total_exec_time/1000000) as avg_e_sec,
+       avg(m.query_cpu_usage_percent) as avg_pct_cpu, max(m.query_cpu_usage_percent) as max_pct_cpu, max(m.query_temp_blocks_to_disk) as max_spill, sum(m.query_temp_blocks_to_disk) as sum_spill_mb,
+       sum(m.scan_row_count) as sum_row_scan, sum(m.join_row_count) as sum_join_rows, sum(m.nested_loop_join_row_count) as sum_nl_join_rows, sum(m.return_row_count) as sum_ret_rows,
+       sum(m.spectrum_scan_size_mb) as sum_spec_mb
+       from   stl_wlm_query as w left join svl_query_metrics_summary as m using (userid,service_Class, query)
+       where  service_class > 5
+       group by 1,2 order by 1 desc, 2;
+    """
+
+  'Redshift Workload Pattern For a timeframe':
+    'prefix': 'rs-wrkld-pattern-timeframe'
+    'body': """
+    -- Workload pattern to understand usage within given hour
+    select date_trunc('hour', w.exec_start_time) as exec_hour, w.service_class as "Q", count(*) as n_q, avg(w.total_queue_time/1000000) as avg_q_sec, avg(w.total_exec_time/1000000) as avg_e_sec,
+       avg(m.query_cpu_usage_percent) as avg_pct_cpu, max(m.query_cpu_usage_percent) as max_pct_cpu, max(m.query_temp_blocks_to_disk) as max_spill, sum(m.query_temp_blocks_to_disk) as sum_spill_mb,
+       sum(m.scan_row_count) as sum_row_scan, sum(m.join_row_count) as sum_join_rows, sum(m.nested_loop_join_row_count) as sum_nl_join_rows, sum(m.return_row_count) as sum_ret_rows,
+       sum(m.spectrum_scan_size_mb) as sum_spec_mb
+       from   stl_wlm_query as w left join svl_query_metrics_summary as m using (userid,service_Class, query)
+       where  service_class > 5 and
+       -- For a particular timeframe
+       (w.exec_start_time between '$1' and '$2' or w.service_class_end_time between '$3' and '$4' )
+       group by 1,2 order by 1 desc, 2;
+    """
+
+  'Redshift QMR Guideline':
+    'prefix': 'rs-qmr-guideline'
+    'body': """
+    -- QMR Guideline
+    -- https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminScripts/wlm_qmr_rule_candidates.sql
+    WITH qmr AS ( SELECT service_class, 'query_cpu_time' ::VARCHAR(30) qmr_metric, MEDIAN(query_cpu_time ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY query_cpu_time ) p99, MAX(query_cpu_time ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'query_blocks_read' ::VARCHAR(30) qmr_metric, MEDIAN(query_blocks_read ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY query_blocks_read ) p99, MAX(query_blocks_read ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'query_execution_time' ::VARCHAR(30) qmr_metric, MEDIAN(query_execution_time ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY query_execution_time ) p99, MAX(query_execution_time ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'query_cpu_usage_percent' ::VARCHAR(30) qmr_metric, MEDIAN(query_cpu_usage_percent ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY query_cpu_usage_percent ) p99, MAX(query_cpu_usage_percent ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'query_temp_blocks_to_disk' ::VARCHAR(30) qmr_metric, MEDIAN(query_temp_blocks_to_disk ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY query_temp_blocks_to_disk ) p99, MAX(query_temp_blocks_to_disk ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'segment_execution_time' ::VARCHAR(30) qmr_metric, MEDIAN(segment_execution_time ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY segment_execution_time ) p99, MAX(segment_execution_time ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'cpu_skew' ::VARCHAR(30) qmr_metric, MEDIAN(cpu_skew ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY cpu_skew ) p99, MAX(cpu_skew ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'io_skew' ::VARCHAR(30) qmr_metric, MEDIAN(io_skew ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY io_skew ) p99, MAX(io_skew ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'scan_row_count' ::VARCHAR(30) qmr_metric, MEDIAN(scan_row_count ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY scan_row_count ) p99, MAX(scan_row_count ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'join_row_count' ::VARCHAR(30) qmr_metric, MEDIAN(join_row_count ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY join_row_count ) p99, MAX(join_row_count ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'nested_loop_join_row_count'::VARCHAR(30) qmr_metric, MEDIAN(nested_loop_join_row_count) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY nested_loop_join_row_count) p99, MAX(nested_loop_join_row_count) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'return_row_count' ::VARCHAR(30) qmr_metric, MEDIAN(return_row_count ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY return_row_count ) p99, MAX(return_row_count ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'spectrum_scan_row_count' ::VARCHAR(30) qmr_metric, MEDIAN(spectrum_scan_row_count ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY spectrum_scan_row_count ) p99, MAX(spectrum_scan_row_count ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 UNION ALL SELECT service_class, 'spectrum_scan_size_mb' ::VARCHAR(30) qmr_metric, MEDIAN(spectrum_scan_size_mb ) p50, PERCENTILE_CONT(0.99) WITHIN GROUP (ORDER BY spectrum_scan_size_mb ) p99, MAX(spectrum_scan_size_mb ) pmax FROM svl_query_metrics_summary WHERE userid > 1 GROUP BY 1 ) SELECT service_class ,qmr_metric,p50,p99,pmax ,(LEFT(p99,1)::INT+1)*POWER(10,LENGTH((p99/10)::BIGINT)) qmr_rule ,ROUND(pmax/((LEFT(p99,1)::INT+1)*POWER(10,LENGTH((p99/10)::BIGINT))),2) pmax_magnitude ,ROW_NUMBER() OVER (PARTITION BY service_class ORDER BY (NVL(pmax,1)/((LEFT(p99,1)::INT+1)*POWER(10,LENGTH((p99/10)::BIGINT)))) DESC) rule_order FROM qmr WHERE NVL(p99,0) >= 10 AND (NVL(p50,0) + NVL(p99,0)) < NVL(pmax,0) AND ((LEFT(p99,1)::INT+1)*POWER(10,LENGTH((p99/10)::BIGINT))) < NVL(pmax,0) ORDER BY 1,8 ;
+    """
