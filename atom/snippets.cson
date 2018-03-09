@@ -341,9 +341,25 @@
     GRANT CREATE, USAGE ON SCHEMA $1 TO $1_grp_c;
     -- Create a user group who can read write objects in the schema
     CREATE GROUP $1_grp_rw;
-    GRANT CREATE USAGE ON SCHEMA $1 TO $1_grp_rw;
+    GRANT USAGE ON SCHEMA $1 TO $1_grp_rw;
     -- Create a user group who can read objects in the schema
     CREATE GROUP $1_grp_ro;
     GRANT USAGE ON SCHEMA $1 TO $1_grp_ro;
     """
-    
+  'Redshift Alter GROUP to add user':
+    'prefix': 'rs-alter-group-add-user'
+    'body': """
+    -- ALTER GROUP $1 To ADD USER $2
+    ALTER GROUP $1 ADD USER $2;
+    """
+  'Redshift Alter GROUP to drop user':
+    'prefix': 'rs-alter-group-drop-user'
+    'body': """
+    -- ALTER GROUP $1 To drop USER $2
+    ALTER GROUP $1 DROP USER $2;
+    """
+  'Redshift Select 1':
+    'prefix': 'rs-select-1'
+    'body': """
+    select 1;
+    """
