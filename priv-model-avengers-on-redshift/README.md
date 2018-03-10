@@ -4,14 +4,19 @@ Hence, it privilege management becomes an important aspect of any DB based syste
 
 Demonstrates how Redshift User Groups and users membership can be used to manage access to different schemas easily.
 
-1. Phase01
+1. [phase01](./phase01)
   - Initial setup of users, user groups and privileges.
   - Run the tests to verify the access
   - Make necessary ALTER DEFAULT PRIVILEGES changes
   - Test the access again
 
-1. Phase02 -
+1. [phase02](./phase02)
+    Prerequisites - Completion of [phase01](./phase01)
 1.
+
+#### Inference
+Thus User Groups can be used to easily manage access to different database objects within a Redshift database.
+ALTER DEFAULT PRIVS for a specific user can be used to eliminate the need to write necessary GRANT statements explicitly every time a new object is created.
 
 ### Object Ownership
 Different objects that users can created in Redshift are - Tables, Views and UDFs. Irrespective of the object type there can be only one *OWNER* that will be the owner of the object.
