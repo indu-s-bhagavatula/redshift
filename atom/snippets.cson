@@ -305,30 +305,50 @@
   'Redshift ALTER DEFAULT Prvis On a Schema To Group Create':
     'prefix': 'rs-alt-def-privs-user-schema-to-group-create'
     'body': """
-    -- Alter def privs of user $1 in schema $2 to authorize create and access privs for members of group $3
+    -- Alter def privs of user $1 in schema $2 to authorize create and access privs for members of group $2_grp_c
     ALTER DEFAULT PRIVILEGES FOR USER $1
     IN SCHEMA $2
     GRANT ALL ON TABLES
-    TO GROUP $3;
+    TO GROUP $2_grp_c;
     """
   'Redshift ALTER DEFAULT Prvis On a Schema To Group Read-Write':
     'prefix': 'rs-alt-def-privs-user-schema-to-group-rw'
     'body': """
-    -- Alter def privs of user $1 in schema $2 to authorize read write access privs group $3
+    -- Alter def privs of user $1 in schema $2 to authorize read write access privs group $2_grp_rw
     ALTER DEFAULT PRIVILEGES FOR USER $1
     IN SCHEMA $2
     GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES
-    TO GROUP $3;
+    TO GROUP $2_grp_rw;
     """
 
   'Redshift ALTER DEFAULT Prvis On a Schema To Group Read Only':
     'prefix': 'rs-alt-def-privs-user-schema-to-group-ro'
     'body': """
-    -- Alter def privs of user $1 in schema $2  to authorize read access group $3
+    -- Alter def privs of user $1 in schema $2  to authorize read access group $2_grp_ro
     ALTER DEFAULT PRIVILEGES FOR USER $1
     IN SCHEMA $2
     GRANT SELECT ON TABLES
-    TO GROUP $3;
+    TO GROUP $2_grp_ro;
+    """
+
+  'Redshift ALTER DEFAULT Prvis On a Schema To Group Respective Groups':
+    'prefix': 'rs-alt-def-privs-user-schema-to-all-groups'
+    'body': """
+    -- Alter def privs of user $1 in schema $2 to authorize create and access privs for members of group $2_grp_c
+    ALTER DEFAULT PRIVILEGES FOR USER $1
+    IN SCHEMA $2
+    GRANT ALL ON TABLES
+    TO GROUP $2_grp_c;
+    -- Alter def privs of user $1 in schema $2 to authorize read write access privs group $2_grp_rw
+    ALTER DEFAULT PRIVILEGES FOR USER $1
+    IN SCHEMA $2
+    GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES
+    TO GROUP $2_grp_rw;
+    -- Alter def privs of user $1 in schema $2  to authorize read access group $2_grp_ro
+    ALTER DEFAULT PRIVILEGES FOR USER $1
+    IN SCHEMA $2
+    GRANT SELECT ON TABLES
+    TO GROUP $2_grp_ro;
     """
 
   'Redshift Create schema and create, readwrite and readonly groups':
