@@ -33,7 +33,7 @@ It involves one time effort to configure user's default privilege and totally el
 
 The privilege model discussed here is generic in nature providing three levels of access - Create, ReadWrite and ReadOnly and is not limited to Redshift native users in its application.
 It is compatible with the recent Redshift's Federated access.
-
+77
 ### Object Ownership
 Different objects that users can created in Redshift are - Tables, Views and UDFs. Irrespective of the object type there can be only one *OWNER* that will be the owner of the object.
 An object cannot be owned by a GROUP.
