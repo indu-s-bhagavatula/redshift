@@ -358,13 +358,13 @@
     CREATE SCHEMA $1;
     -- Create a user group who can create objects in the schema
     CREATE GROUP $1_grp_c;
-    GRANT CREATE, USAGE ON SCHEMA $1 TO $1_grp_c;
+    GRANT CREATE, USAGE ON SCHEMA $1 TO GROUP $1_grp_c;
     -- Create a user group who can read write objects in the schema
     CREATE GROUP $1_grp_rw;
-    GRANT USAGE ON SCHEMA $1 TO $1_grp_rw;
+    GRANT USAGE ON SCHEMA $1 TO GROUP $1_grp_rw;
     -- Create a user group who can read objects in the schema
     CREATE GROUP $1_grp_ro;
-    GRANT USAGE ON SCHEMA $1 TO $1_grp_ro;
+    GRANT USAGE ON SCHEMA $1 TO GROUP $1_grp_ro;
     """
   'Redshift Alter GROUP to add user':
     'prefix': 'rs-alter-group-add-user'
