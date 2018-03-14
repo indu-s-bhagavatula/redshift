@@ -56,45 +56,29 @@ As master user of the Redshift cluster create the views available here
 - [v_generate_user_grant_revoke_ddl.sql](https://github.com/awslabs/amazon-redshift-utils/blob/master/src/AdminViews/v_generate_user_grant_revoke_ddl.sql).
 
 After the above views were created successfully execute the below statements as the master user of the cluster
-- Identifying objects owned by 'ancient_one'
+1. Identifying objects owned by 'ancient_one'
 ```sql
 -- Identifying the list of all objects that ancient_one owns
 select ddl from v_find_dropuser_objs where objowner='ancient_one';
 -- Save the output from ddl column in a new_owner.sql and modify it to include doctor_strange
 ```
-
-- Identifying privileges that were issued by 'ancient_one' to be revoked
+1. Identifying privileges that were issued by 'ancient_one' that need to be granted by the new owner.
 ```sql
 -- Identifying the list of all objects that ancient_one has issued grants to other groups/users
-
--- Save the output from ddl column in a new_owner.sql and modify it to include doctor_strange
+select * from admin.v_generate_user_grant_revoke_ddl where grantor='ancient_one' and ddltype='grant'
+-- Save the output from ddl column in a reissue_new_owner_grants.sql
 ```
-
-
-- Identify the new owner of the object. Transfer the objects 'Owned' by the user to be dropped to another user.
-Login as **'ancient_one'** and execute below statements
-In this case object ownership will be transferred from 'ancient_one' to 'doctor_strange'. This is a legitimate operation even though doctor_strange is still a member of ReadOnly group.
+1. Identifying privileges that were issued by 'ancient_one' to be revoked
 ```sql
-select current_user
--- Transfer the ownership of the table to 'doctor_strange'
-ALTER TABLE kamar_taj.tbl01_ancient_one OWNER TO doctor_strange;
-```
-- Have the grants issued as the new user to the Users/Groups
-
-- Revoke privileges granted by the user to other users or groups
-- Revoke all the default privileges configured for the user on schema(s) other to users/groups
-
-The first two steps have to be performed as the user 'ancient_one'
-```sql
--- Revoke All the privileges granted on various objects
--- In this case kamar_taj.tbl01_ancient_one from groups.
-REVOKE ALL ON ALL TABLES IN SCHEMA kamar_taj FROM kamar_taj_grp_c;
-REVOKE ALL ON ALL TABLES IN SCHEMA kamar_taj FROM kamar_taj_grp_rw;
-REVOKE ALL ON ALL TABLES IN SCHEMA kamar_taj FROM kamar_taj_grp_ro;
--- Transfer the ownership of the table to 'doctor_strange'
-ALTER TABLE kamar_taj.tbl01_ancient_one OWNER TO doctor_strange;
+-- Identifying the list of all objects that ancient_one has issued grants to other groups/users
+select * from admin.v_generate_user_grant_revoke_ddl where grantor='ancient_one' and ddltype='revoke'
+-- Save the output from ddl column in a revoke_grants.sql
 ```
 
-Once the above statements executed successfully, [phase03_drop_user_ancient_one.sql](./phase03_drop_user_ancient_one.sql) includes statements for:
-- Reconfiguring the default privileges for the user 'ancient_one' on the schema 'kamar_taj' for various groups.
-- Drop user 'ancient_one'
+##### Run the above scripts
+- As master user of the cluster run object run the saved script "new_owner.sql" from Step 1.
+- As doctor_strange of the cluster run object run the saved script "reissue_new_owner_grants.sql" from Step 2.
+- As ancient_one user run the script "revoke_grants.sql" generated from Step 3.
+- Once the above statements executed successfully, run the below script as master user of the cluster [phase03_drop_user_ancient_one.sql](./phase03_drop_user_ancient_one.sql) includes statements for:
+  - Reconfiguring the default privileges for the user 'ancient_one' on the schema 'kamar_taj' for various groups.
+  - Drop user 'ancient_one'

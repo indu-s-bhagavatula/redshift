@@ -9,17 +9,30 @@ Demonstrates how Redshift User Groups and users membership can be used to manage
   - Make necessary ALTER DEFAULT PRIVILEGES changes
   - Test the access again
 1. [phase02](./phase02)
-    Prerequisites - Completion of [phase01](./phase01).
-    
-    In this phase following actions are performed:
-    - Privilege of 'captain_america' will be modified
-    - User 'spider_man' is created with access to one of the existing schemas
-    - A new schema 'kamar_taj' and corresponding groups are created. Two new users are also created with appropriate access to that schema.
+
+  Prerequisites - Completion of [phase01](./phase01).
+
+  In this phase following actions are performed:
+  - Privilege of 'captain_america' will be modified
+  - User 'spider_man' is created with access to one of the existing schemas
+  - A new schema 'kamar_taj' and corresponding groups are created. Two new users are also created with appropriate access to that schema.
 1. [phase03](./phase03)
 
+  Prerequisites - Completion of [phase02](./phase02).
+
+  In this phase following actions are performed:
+  - Privilege of 'iron_man' will be modified
+  - Privilege of 'spider_man' will be modified
+  - Privilege of 'doctor_strange' will be modified
+  - User 'ancient_one' will be dropped.
+
 #### Inference
-Thus User Groups can be used to easily manage access to different database objects within a Redshift database.
+User Groups can be used to easily manage access to different database objects within a Redshift database.
 ALTER DEFAULT PRIVS for a specific user can be used to eliminate the need to write necessary GRANT statements explicitly every time a new object is created.
+It involves one time effort to configure user's default privilege and totally eliminates the need for administrator of the Redshift cluster to be involved with every new table created.
+
+The privilege model discussed here is generic in nature providing three levels of access - Create, ReadWrite and ReadOnly and is not limited to Redshift native users in its application.
+It is compatible with the recent Redshift's Federated access.
 
 ### Object Ownership
 Different objects that users can created in Redshift are - Tables, Views and UDFs. Irrespective of the object type there can be only one *OWNER* that will be the owner of the object.
