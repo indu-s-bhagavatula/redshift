@@ -18,35 +18,61 @@ Setup - Scripts can be executed in the below order
 
 ## Test access and behavior.
 ### Create tables with two creators of shield schema
-1. Create table 'tbl01_iron_man' in shield schema as iron_man
+- Create table 'tbl01_iron_man' in shield schema as iron_man
 ```sql
 select current_user;
 create table shield.tbl01_iron_man (cols int);
 ```
-1. Create table 'tbl01_fury' in shield schema as fury
+----
+Output
+```sql
+rshiftdb=> select current_user;
+ current_user
+--------------
+ iron_man
+(1 row)
+
+rshiftdb=> create table shield.tbl01_iron_man (cols int);
+CREATE TABLE
+```
+----
+
+- Create table 'tbl01_fury' in shield schema as fury
 ```sql
 select current_user;
 create table shield.tbl01_fury (cols int);
 ```
+----
+Output
+```sql
+rshiftdb=> select current_user;
+ current_user
+--------------
+ fury
+(1 row)
+
+rshiftdb=> create table shield.tbl01_fury (cols int);
+CREATE TABLE
+```
+----
 
 #### Test the access to the creators on each other's tables
-1. As iron_man test access to the table shield.tbl01_fury
+- As iron_man test access to the table shield.tbl01_fury
 ```sql
 select * from shield.tbl01_fury;
 ```
-1. As fury test access to the table shield.tbl01_iron_man
+- As fury test access to the table shield.tbl01_iron_man
 ```sql
 select * from shield.tbl01_iron_man;
 ```
 #### Test the access to the ReadWrite and ReadOnly users
-1. As captain_america
+- As captain_america
 ```sql
 select current_user;
 select * fromm  shield.tbl01_iron_man ;
 select * from shield.tbl01_fury;
 ```
-
-1. As thor
+- As thor
 ```sql
 select current_user;
 select * fromm  shield.tbl01_iron_man ;
@@ -54,14 +80,13 @@ select * from shield.tbl01_fury;
 ```
 
 #### Grant privs on the tables created to the groups appropriately
-1. Granting privs on shield.tbl01_iron_man
+- Granting privs on shield.tbl01_iron_man
 ```sql
 GRANT ALL ON shield.tbl01_iron_man TO avengers_tower_grp_c;
 GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_iron_man TO avengers_tower_grp_rw;
 GRANT SELECT ON shield.tbl01_iron_man TO avengers_tower_grp_ro;
 ```
-
-1. Granting privs on shield.tbl01_fury
+- Granting privs on shield.tbl01_fury
 ```sql
 GRANT ALL ON shield.tbl01_fury TO avengers_tower_grp_c;
 GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_fury TO avengers_tower_grp_rw;
@@ -76,28 +101,28 @@ Run the script to ALTER DEFAULT privs for creators of tables in respective table
 
 ## Test access and behavior.
 ### Create tables with two creators of shield schema
-1. Create table 'tbl02_iron_man' in shield schema as iron_man
+- Create table 'tbl02_iron_man' in shield schema as iron_man
 ```sql
 select current_user;
 create table shield.tbl02_iron_man (cols int);
 ```
-1. Create table 'tbl02_fury' in shield schema as fury
+- Create table 'tbl02_fury' in shield schema as fury
 ```sql
 select current_user;
 create table shield.tbl02_fury (cols int);
 ```
 
 #### Test the access to the creators on each other's tables
-1. As iron_man test access to the table shield.tbl02_fury
+- As iron_man test access to the table shield.tbl02_fury
 ```sql
 select * from shield.tbl02_fury;
 ```
-1. As fury test access to the table shield.tbl02_iron_man
+- As fury test access to the table shield.tbl02_iron_man
 ```sql
 select * from shield.tbl02_iron_man;
 ```
 #### Test the access to the ReadWrite and ReadOnly users
-1. As captain_america run the below SQL statements
+- As captain_america run the below SQL statements
 ```sql
 select current_user;
 -- Tables created by iron_man
@@ -113,8 +138,7 @@ insert into shield.tbl02_iron_man values (1);
 insert into shield.tbl01_fury values (1);
 insert into shield.tbl02_fury values (1);
 ```
-
-1. As thor run the below SQL statements
+- As thor run the below SQL statements
 ```sql
 select current_user;
 -- Tables created by iron_man
@@ -133,7 +157,7 @@ insert into shield.tbl02_fury values (2);
 ```
 
 #### Test the access for loki (Not a member of any group)
-1. As loki run the below SQL statements
+- As loki run the below SQL statements
 ```sql
 select current_user;
 -- Tables created by iron_man
