@@ -23,16 +23,14 @@ Setup - Scripts can be executed in the below order
 select current_user;
 create table shield.tbl01_iron_man (cols int);
 ```
-----
-Output
-```sql
+```
 rshiftdb=> select current_user;
  current_user
 --------------
- iron_man
+ fury
 (1 row)
 
-rshiftdb=> create table shield.tbl01_iron_man (cols int);
+rshiftdb=> create table shield.tbl01_fury (cols int);
 CREATE TABLE
 ```
 ----
