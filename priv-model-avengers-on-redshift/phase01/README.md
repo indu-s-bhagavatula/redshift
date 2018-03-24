@@ -57,7 +57,7 @@ CREATE TABLE
 ```sql
 select * from shield.tbl01_fury;
 ```
-**Output**
+**Output** should be permission denied as below
 ```
 rshiftdb=> select current_user;
  current_user
@@ -72,7 +72,7 @@ ERROR:  permission denied for relation tbl01_fury
 ```sql
 select * from shield.tbl01_iron_man;
 ```
-**Output**
+**Output** should be permission denied as below
 ```
 rshiftdb=> select current_user;
  current_user
@@ -85,18 +85,45 @@ ERROR:  permission denied for relation tbl01_iron_man
 ```
 
 #### Test the access to the ReadWrite and ReadOnly users
-- As captain_america
+- As captain_america execute the below statements
 ```sql
 select current_user;
-select * fromm  shield.tbl01_iron_man ;
+select * from  shield.tbl01_iron_man ;
 select * from shield.tbl01_fury;
 ```
-- As thor
+**Output** should be permission denied as below
+```
+rshiftdb=> select current_user;
+  current_user   
+-----------------
+ captain_america
+(1 row)
+
+rshiftdb=> select * from  shield.tbl01_iron_man ;
+ERROR:  permission denied for relation tbl01_iron_man
+rshiftdb=> select * from shield.tbl01_fury;
+ERROR:  permission denied for relation tbl01_fury
+```
+- As thor execute the below statements
 ```sql
 select current_user;
-select * fromm  shield.tbl01_iron_man ;
+select * from  shield.tbl01_iron_man ;
 select * from shield.tbl01_fury;
 ```
+**Output** should be permission denied as below
+```
+rshiftdb=> select current_user;
+ current_user
+--------------
+ thor
+(1 row)
+
+rshiftdb=> select * from  shield.tbl01_iron_man ;
+ERROR:  permission denied for relation tbl01_iron_man
+rshiftdb=> select * from shield.tbl01_fury;
+ERROR:  permission denied for relation tbl01_fury
+```
+
 
 #### Grant privs on the tables created to the groups appropriately
 - Granting privs on shield.tbl01_iron_man
