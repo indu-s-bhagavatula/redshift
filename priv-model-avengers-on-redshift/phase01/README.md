@@ -23,26 +23,25 @@ Setup - Scripts can be executed in the below order
 select current_user;
 create table shield.tbl01_iron_man (cols int);
 ```
+**Output**
 ```
 rshiftdb=> select current_user;
  current_user
 --------------
- fury
+ iron_man
 (1 row)
 
-rshiftdb=> create table shield.tbl01_fury (cols int);
+rshiftdb=> create table shield.tbl01_iron_man (cols int);
 CREATE TABLE
 ```
-----
 
 - Create table 'tbl01_fury' in shield schema as fury
 ```sql
 select current_user;
 create table shield.tbl01_fury (cols int);
 ```
-----
-Output
-```sql
+**Output**
+```
 rshiftdb=> select current_user;
  current_user
 --------------
@@ -52,17 +51,39 @@ rshiftdb=> select current_user;
 rshiftdb=> create table shield.tbl01_fury (cols int);
 CREATE TABLE
 ```
-----
 
 #### Test the access to the creators on each other's tables
 - As iron_man test access to the table shield.tbl01_fury
 ```sql
 select * from shield.tbl01_fury;
 ```
+**Output**
+```
+rshiftdb=> select current_user;
+ current_user
+--------------
+ iron_man
+(1 row)
+
+rshiftdb=> select * from shield.tbl01_fury;
+ERROR:  permission denied for relation tbl01_fury
+```
 - As fury test access to the table shield.tbl01_iron_man
 ```sql
 select * from shield.tbl01_iron_man;
 ```
+**Output**
+```
+rshiftdb=> select current_user;
+ current_user
+--------------
+ fury
+(1 row)
+
+rshiftdb=> select * from shield.tbl01_iron_man;
+ERROR:  permission denied for relation tbl01_iron_man
+```
+
 #### Test the access to the ReadWrite and ReadOnly users
 - As captain_america
 ```sql
