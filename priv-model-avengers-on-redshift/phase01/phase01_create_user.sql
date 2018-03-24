@@ -7,7 +7,7 @@ CREATE USER loki WITH PASSWORD 'Marv3!CU';
 -- create user thor
 CREATE USER thor WITH PASSWORD 'Marv3!CU';
 -- create user hulk
-CREATE USER hulkk WITH PASSWORD 'Marv3!CU';
+CREATE USER hulk WITH PASSWORD 'Marv3!CU';
 -- create user shuri
 CREATE USER shuri WITH PASSWORD 'Marv3!CU';
 -- create user blackpanther
