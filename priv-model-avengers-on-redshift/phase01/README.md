@@ -128,17 +128,49 @@ ERROR:  permission denied for relation tbl01_fury
 #### Grant privs on the tables created to the groups appropriately
 - Granting privs on shield.tbl01_iron_man
 ```sql
-GRANT ALL ON shield.tbl01_iron_man TO avengers_tower_grp_c;
-GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_iron_man TO avengers_tower_grp_rw;
-GRANT SELECT ON shield.tbl01_iron_man TO avengers_tower_grp_ro;
+GRANT ALL ON shield.tbl01_iron_man TO GROUP avengers_tower_grp_c;
+GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_iron_man TO GROUP avengers_tower_grp_rw;
+GRANT SELECT ON shield.tbl01_iron_man TO GROUP  avengers_tower_grp_ro;
 ```
+**Output** Grant statement should be successful
+```
+rshiftdb=> select current_user;
+ current_user
+--------------
+ iron_man
+(1 row)
+
+rshiftdb=> GRANT ALL ON shield.tbl01_iron_man TO GROUP avengers_tower_grp_c;
+GRANT
+rshiftdb=> GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_iron_man TO GROUP avengers_tower_grp_rw;
+GRANT
+rshiftdb=> GRANT SELECT ON shield.tbl01_iron_man TO GROUP  avengers_tower_grp_ro;
+GRANT
+```
+
 - Granting privs on shield.tbl01_fury
 ```sql
-GRANT ALL ON shield.tbl01_fury TO avengers_tower_grp_c;
-GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_fury TO avengers_tower_grp_rw;
-GRANT SELECT ON shield.tbl01_fury TO avengers_tower_grp_ro;
+GRANT ALL ON shield.tbl01_fury TO GROUP  avengers_tower_grp_c;
+GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_fury TO GROUP avengers_tower_grp_rw;
+GRANT SELECT ON shield.tbl01_fury TO GROUP avengers_tower_grp_ro;
 ```
-Repeat the above statements to test access again.
+**Output** Grant statement should be successful
+```
+rshiftdb=> select current_user;
+ current_user
+--------------
+ fury
+(1 row)
+
+rshiftdb=> GRANT ALL ON shield.tbl01_fury TO GROUP  avengers_tower_grp_c;
+GRANT
+rshiftdb=> GRANT INSERT, UPDATE, DELETE, SELECT ON shield.tbl01_fury TO GROUP avengers_tower_grp_rw;
+GRANT
+rshiftdb=> GRANT SELECT ON shield.tbl01_fury TO GROUP avengers_tower_grp_ro;
+GRANT
+```
+
+- Repeat the above statements for each user to test access again.
 
 
 #### Configure Default privileges for creators of respective schemas.
