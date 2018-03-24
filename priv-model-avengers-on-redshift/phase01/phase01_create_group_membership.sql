@@ -2,8 +2,8 @@
 ALTER GROUP avengers_tower_grp_c ADD USER iron_man;
 -- ALTER GROUP shield_grp_c To ADD USER iron_man
 ALTER GROUP shield_grp_c ADD USER iron_man;
--- ALTER GROUP avengers_tower_grp_c To ADD USER iron_man
-ALTER GROUP avengers_tower_grp_c ADD USER iron_man;
+-- ALTER GROUP avengers_facility_grp_c To ADD USER iron_man
+ALTER GROUP avengers_facility_grp_c ADD USER iron_man;
 
 -- ALTER GROUP avengers_tower_grp_ro To ADD USER captain_america
 ALTER GROUP avengers_tower_grp_ro ADD USER captain_america;

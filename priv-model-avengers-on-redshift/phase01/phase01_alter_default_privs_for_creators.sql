@@ -62,18 +62,18 @@ IN SCHEMA shield
 GRANT SELECT ON TABLES
 TO GROUP shield_grp_ro;
 
--- Alter def privs of user iron_man in schema wakanda to authorize create and access privs for members of group wakanda_grp_c
-ALTER DEFAULT PRIVILEGES FOR USER iron_man
+-- Alter def privs of user shuri in schema wakanda to authorize create and access privs for members of group wakanda_grp_c
+ALTER DEFAULT PRIVILEGES FOR USER shuri
 IN SCHEMA wakanda
 GRANT ALL ON TABLES
 TO GROUP wakanda_grp_c;
--- Alter def privs of user iron_man in schema wakanda to authorize read write access privs group wakanda_grp_rw
-ALTER DEFAULT PRIVILEGES FOR USER iron_man
+-- Alter def privs of user shuri in schema wakanda to authorize read write access privs group wakanda_grp_rw
+ALTER DEFAULT PRIVILEGES FOR USER shuri
 IN SCHEMA wakanda
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES
 TO GROUP wakanda_grp_rw;
--- Alter def privs of user iron_man in schema wakanda  to authorize read access group wakanda_grp_ro
-ALTER DEFAULT PRIVILEGES FOR USER iron_man
+-- Alter def privs of user shuri in schema wakanda  to authorize read access group wakanda_grp_ro
+ALTER DEFAULT PRIVILEGES FOR USER shuri
 IN SCHEMA wakanda
 GRANT SELECT ON TABLES
 TO GROUP wakanda_grp_ro;
