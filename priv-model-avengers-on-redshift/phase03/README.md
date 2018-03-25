@@ -104,7 +104,7 @@ After the above views were created successfully execute the below statements as 
 select ddl from admin.v_find_dropuser_objs where objowner='ancient_one';
 -- Save the output from ddl column in a new_owner.sql and modify it to include doctor_strange
 ```
-**Output** Save the output to a file new_owner.sql
+**Output** Save the output to a file new_owner.sql and edit the file to transfer the ownership to doctor_strange
 ```
 rshiftdb=# select ddl from admin.v_find_dropuser_objs where objowner='ancient_one';
                         ddl                        
