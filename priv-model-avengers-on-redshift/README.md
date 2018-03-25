@@ -8,13 +8,13 @@ Demonstrates how Redshift User Groups and users membership can be used to manage
   - Run the tests to verify the access
   - Make necessary ALTER DEFAULT PRIVILEGES changes
   - Test the access again
-1. [phase02](./phase02)
+2. [phase02](./phase02)
   Prerequisites - Completion of [phase01](./phase01).
   In this phase following actions are performed:
   - Privilege of 'captain_america' will be modified
   - User 'spider_man' is created with access to one of the existing schemas
   - A new schema 'kamar_taj' and corresponding groups are created. Two new users are also created with appropriate access to that schema.
-1. [phase03](./phase03)
+3. [phase03](./phase03)
   Prerequisites - Completion of [phase02](./phase02).
   In this phase following actions are performed:
   - Privilege of 'iron_man' will be modified
