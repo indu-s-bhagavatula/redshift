@@ -5,22 +5,22 @@ Hence, it privilege management becomes an important aspect of any DB based syste
 Demonstrates how Redshift User Groups and users membership can be used to manage access to different schemas easily.
 1. [phase01](./phase01)
   Initial setup of users, user groups and privileges.
-..* Run the tests to verify the access
-..* Make necessary ALTER DEFAULT PRIVILEGES changes
-..* Test the access again
+  - Run the tests to verify the access
+  - Make necessary ALTER DEFAULT PRIVILEGES changes
+  - Test the access again
 1. [phase02](./phase02)
   Prerequisites - Completion of [phase01](./phase01).
   In this phase following actions are performed:
-..* Privilege of 'captain_america' will be modified
-..* User 'spider_man' is created with access to one of the existing schemas
-..* A new schema 'kamar_taj' and corresponding groups are created. Two new users are also created with appropriate access to that schema.
+  - Privilege of 'captain_america' will be modified
+  - User 'spider_man' is created with access to one of the existing schemas
+  - A new schema 'kamar_taj' and corresponding groups are created. Two new users are also created with appropriate access to that schema.
 1. [phase03](./phase03)
   Prerequisites - Completion of [phase02](./phase02).
   In this phase following actions are performed:
-..* Privilege of 'iron_man' will be modified
-..* Privilege of 'spider_man' will be modified
-..* Privilege of 'doctor_strange' will be modified
-..* User 'ancient_one' will be dropped.
+  - Privilege of 'iron_man' will be modified
+  - Privilege of 'spider_man' will be modified
+  - Privilege of 'doctor_strange' will be modified
+  - User 'ancient_one' will be dropped.
 
 #### Inference
 User Groups can be used to easily manage access to different database objects within a Redshift database.
